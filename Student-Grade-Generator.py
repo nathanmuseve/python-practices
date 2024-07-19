@@ -33,5 +33,7 @@ elif nomarks:
         print("Your makrs is:", marks)
 elif marks == marks:
         print("Done Processing marks! No grade for such marks. Please enter the correct Marks!")
+else:
+        print("Seek medication!")
                 
-        
+            # THE END OF THE PROGRAM 

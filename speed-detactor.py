@@ -10,7 +10,6 @@ max_speed ="OK!"
 over_speed = "License suspended! Visit KENHA"
 
 def check_speed(speed):
-
     if speed < spd_limit:
       print(max_speed)
       return max_speed
@@ -24,3 +23,5 @@ def check_speed(speed):
 
 speed = int(input("Enter the speed of the car: ")) 
 check_speed(speed)
+
+    # THE END OF THE PROGRAM 

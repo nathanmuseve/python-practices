@@ -8,17 +8,25 @@
 # 500,001 - 800,000	6,000,001 - 9,600,000	32.5
 # Above 800,000	Above 9,600,000	35.0
 
-import random
+  #Instruction
+print(f"This program intends to collect your Basic Salary and allowances and returns Gross Salary, Income Tax(PAYE), Income After Tax, NSSF and NHIF contributions, Housing Levy deduction and your Net Icome(Net salary). Enter a valid value greater than 0. Gross Salary below Ksh{24000:,.2f} is Exempted from Tax.")
+"\n"
 basic_salary = int(input("Enter your Basic Income:"))
 total_loans = int(input("Enter any amount of pending loans:"))
 house_allowances = int(input("Enter your House allowance:"))
 medical_allowances = int(input("Enter your Medical allowances:"))
 commuter_allowances = int(input("Enter your Commuter allowances:"))
 any_other_benefits = int(input("Enter any other allowances(combined) that you receive monthly. eg sitting allowances, laughing and smiling allowances etc:"))
+print("\n") 
+   #OTHER PAYE PARAMETERS 
+personal_relief = 2400	
+insurance_relief =	5000
+total_relief = personal_relief
+disability_exemption = 150000
 
 #gross salary 
-gross_salary = basic_salary + house_allowances + medical_allowances + commuter_allowances  + any_other_benefits
-print(f"Your Gross salary is: {gross_salary:.2f}.")
+gross_salary = basic_salary + house_allowances + medical_allowances + commuter_allowances  + any_other_benefits - personal_relief
+
 #Tax earning categories or tax bands
 first_band = 24000 #rate = 0.10
 second_band = 32333 #rate = 0.25
@@ -33,6 +41,7 @@ third_band_tax = (gross_salary - second_band) * 0.30
 fourth_band_tax = (gross_salary - third_band) * 0.325
 above_band_tax = (gross_salary - fourth_band) * 0.35
 
+#Tax Calculations
 paye1 = first_band_tax 
 paye2 = first_band_tax + second_band_tax
 paye3 = first_band_tax + second_band_tax + third_band_tax
@@ -42,15 +51,10 @@ paye_above = first_band_tax + second_band_tax + third_band_tax + fourth_band_tax
 # Tier	Pensionable Pay NSSF
 # I	Up to 7,000
 # II	7,001 - 36,000
-nssf = 0.06
+nssf = 0.06 #of income_after_tax
 
 ##housing levy 
 house_levy = 0.015 #on income_after tax
-   #OTHER PAYE PARAMETERS 
-personal_relief = 2400	
-insurance_relief =	5000
-total_relief = personal_relief
-disability_exemption = 150000
 
 #total deductions
 total_deductions = total_loans  + (house_levy * gross_salary) + insurance_relief
@@ -60,29 +64,23 @@ def pAYE():
   paye = 0
   if gross_salary < first_band:
     paye
-    print(f"You have paid a tax amount of: {paye:.2f}")
   elif gross_salary == first_band:
     paye += paye1
-    print(f"You have paid a tax amount of: {paye1:.2f}")
   elif gross_salary > first_band and gross_salary <= second_band:
     paye += paye2
-    print(f"You have paid a tax amount of: {paye2:.2f}")
   elif gross_salary > second_band and gross_salary <= third_band:
     paye += paye3
-    print(f"You have paid a tax amount of: {paye3:.2f}")
   elif gross_salary > third_band and gross_salary <= fourth_band:
     paye += paye4
-    print(f"You have paid a tax amount of: {paye4:.2f}")
   elif gross_salary > fourth_band and gross_salary >= fourth_band:
     paye += paye_above
-    print(f"You have paid a tax amount of: {paye_above:.2f}")
   else:
-    print("Oops! Invalid Gross Salary amount!")
+    raise Exception("Oops! Invalid Gross Salary amount!")
 pAYE()
 
 
   #  DEDUCTIONS 
-# NHIF Deductions 
+# NHIF Deductions categories
 # Gross Pay (Ksh)	Deduction (Ksh)	 	Gross Pay (Ksh)	Deduction (Ksh)
 # Up to 5,999	150	 	40,000 - 44,999	1,000
 # 6,000 - 7,999	300	 	45,000 - 49,999	1,100
@@ -94,6 +92,7 @@ pAYE()
 # 30,000 - 34,999	900	 	100,000 and above	1,700
 # 35,000 - 39,999	950	
 
+  #NHIF Calculation
 def nHIF():
   global nhif
   if gross_salary <= 5999:
@@ -130,13 +129,25 @@ def nHIF():
     nhif = 1700
 nHIF()
 
-income_after_tax = gross_salary - paye 
-print(f"Your income after tax is :{(income_after_tax + personal_relief):.2f}")
-print(f"Your NSSF contribution of {(nssf * income_after_tax):.2f} has been sumitted to your NSSF account.")
-print(f"Your NHIF contribution of {nhif:.2f}  has been submitted to your NHIF account.")
+  # income_after_tax Calculation
+income_after_tax = gross_salary - paye +personal_relief
+   #net_income Calcution
 net_income = income_after_tax - (total_deductions + nhif + (nssf * income_after_tax))
-print(f"Your Net income is {net_income:.2f}")
- 
+print(f"Your Gross salary is Ksh{gross_salary:,.2f}.\n")
+  #PAYE
+print(f"You have paid a tax amount, PAYE of Ksh{paye:,.2f}\n")
+ #income_after_tax
+print(f"Your Income after tax is Ksh{(income_after_tax):,.2f}\n")
+ #NSSF Contribution
+print(f"Your NSSF contribution of Ksh{(nssf * income_after_tax):,.2f} has been sumitted to your NSSF account.\n")
+ #NHIF Contribution
+print(f"Your NHIF contribution of Ksh{nhif:,.2f}  has been submitted to your NHIF account.")
+ #Personal_relief
+print(f"Did you know that for every Taxable/Gross income the government gives you a tax relief of Ksh{personal_relief:,.2f}? Now you know.\n")
 
-  # print("")
-  # print("")
+ #Housing Levy
+print(f"But did you know that Ksha{(house_levy * gross_salary):,.2f} was taken as an Housing levy? \n")
+  #net_income 
+print(f"Your Net income is Ksh{net_income:,.2f}")
+
+    # THE END OF THE PROGRAM 
