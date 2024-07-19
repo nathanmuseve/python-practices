@@ -29,11 +29,10 @@ above_band = 800000 #rate = 0.35
 # paye
 first_band_tax = (first_band ) * 0.10
 second_band_tax = (second_band - first_band) * 0.25
-third_band_tax = (third_band - first_band) * 0.30
-fourth_band_tax = (fourth_band - third_band) * 0.325
-above_band_tax = (above_band - fourth_band) * 0.35
+third_band_tax = (gross_salary - second_band) * 0.30
+fourth_band_tax = (gross_salary - third_band) * 0.325
+above_band_tax = (gross_salary - fourth_band) * 0.35
 
-paye = 0
 paye1 = first_band_tax 
 paye2 = first_band_tax + second_band_tax
 paye3 = first_band_tax + second_band_tax + third_band_tax
@@ -57,23 +56,25 @@ disability_exemption = 150000
 total_deductions = total_loans  + (house_levy * gross_salary) + insurance_relief
 #taxable income. PAYE CALCULATION
 def pAYE():
+  global paye
+  paye = 0
   if gross_salary < first_band:
     paye
     print(f"You have paid a tax amount of: {paye:.2f}")
   elif gross_salary == first_band:
-    paye1
+    paye += paye1
     print(f"You have paid a tax amount of: {paye1:.2f}")
-  elif gross_salary <= second_band:
-    paye2
+  elif gross_salary > first_band and gross_salary <= second_band:
+    paye += paye2
     print(f"You have paid a tax amount of: {paye2:.2f}")
-  elif gross_salary <= third_band:
-    paye3
+  elif gross_salary > second_band and gross_salary <= third_band:
+    paye += paye3
     print(f"You have paid a tax amount of: {paye3:.2f}")
-  elif gross_salary <= fourth_band:
-    paye4
+  elif gross_salary > third_band and gross_salary <= fourth_band:
+    paye += paye4
     print(f"You have paid a tax amount of: {paye4:.2f}")
-  elif gross_salary >= above_band:
-    paye_above
+  elif gross_salary > fourth_band and gross_salary >= fourth_band:
+    paye += paye_above
     print(f"You have paid a tax amount of: {paye_above:.2f}")
   else:
     print("Oops! Invalid Gross Salary amount!")
@@ -129,7 +130,7 @@ def nHIF():
     nhif = 1700
 nHIF()
 
-income_after_tax = gross_salary - (paye or paye1 or paye2 or paye3 or paye4 or paye_above)
+income_after_tax = gross_salary - paye 
 print(f"Your income after tax is :{(income_after_tax + personal_relief):.2f}")
 print(f"Your NSSF contribution of {(nssf * income_after_tax):.2f} has been sumitted to your NSSF account.")
 print(f"Your NHIF contribution of {nhif:.2f}  has been submitted to your NHIF account.")
