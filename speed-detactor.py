@@ -3,18 +3,18 @@
 #    > For example, if the speed is 80, it should print: “Points: 2”. If the driver gets more than 12 points, the function should print: “License suspended”.
 
 # print("Enter the speed of your car")
-spd_limit = 70
+speed_limit = 70
 demerit_points_per_5km = 5
 max_demerit_points = 12
-max_speed ="OK!"
-over_speed = "License suspended! Visit KENHA"
+max_speed ="OK!" 
+over_speed = "License suspended! Visit Kenya Roads Authority(KERA)."
 
 def check_speed(speed):
-    if speed < spd_limit:
+    if speed < speed_limit: #compare speed
       print(max_speed)
       return max_speed
     else:
-        demerit_points = (speed - spd_limit) // int(demerit_points_per_5km)
+        demerit_points = (speed - speed_limit) // int(demerit_points_per_5km) #if speed above 70 returns points
         if demerit_points > max_demerit_points:
             print(over_speed)
             return over_speed
@@ -22,6 +22,6 @@ def check_speed(speed):
             print(f"Points: {demerit_points}")  
 
 speed = int(input("Enter the speed of the car: ")) 
-check_speed(speed)
+check_speed(speed) #input speed
 
     # THE END OF THE PROGRAM 
